@@ -12,8 +12,6 @@ CardioSense é um sistema de inteligência artificial que utiliza o **Cardiovasc
 - [Uso](#uso)
 - [Rotas da API](#rotas-da-api)
 - [Modelo](#modelo)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 ## Descrição
 
