@@ -149,7 +149,7 @@ def predict(form: PacienteSchema):
     
     # Caso ocorra algum erro na adição
     except Exception as e:
-        error_msg = "Não foi possível salvar novo item :/"
+        error_msg = "Não foi possível salvar novo item."
         logger.warning(f"Erro ao adicionar paciente '{paciente.name}', {error_msg}")
         return {"message": error_msg}, 400
     
