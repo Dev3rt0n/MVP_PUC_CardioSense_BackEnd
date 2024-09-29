@@ -39,7 +39,7 @@ Para executar o projeto localmente, siga os passos abaixo:
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/CardioSense.git
+git clone https://github.com/Dev3rt0n/MVP_PUC_CardioSense_BackEnd.git
 cd CardioSense
 ```
 
@@ -65,14 +65,15 @@ python app.py
 A API estará disponível em http://localhost:5000.
 
 ## Uso
-Após configurar e iniciar o servidor Flask, você pode interagir com a API para fazer predições. Os dados devem ser enviados no formato JSON para a rota /predict e a API retornará a predição baseada nos dados do paciente.
+Após configurar e iniciar o servidor Flask, você pode interagir com a API para fazer predições. Os dados devem ser enviados no formato JSON para a rota /paciente e a API retornará a predição baseada nos dados do paciente.
 
 ### Exemplo de requisição (via curl ou Postman):
 
 ```bash
-curl -X POST http://localhost:5000/predict \
+curl -X POST http://localhost:5000/paciente \
 -H "Content-Type: application/json" \
 -d '{
+    "name": "Maria",
     "age": 50,
     "sex": 1,
     "cp": 3,
@@ -93,23 +94,35 @@ curl -X POST http://localhost:5000/predict \
 
 ```json
 {
-    "prediction": 1,
-    "probability": 0.85
+    "name": "Maria",
+    "age": 50,
+    "sex": 1,
+    "cp": 3,
+    "trestbps": 130,
+    "chol": 245,
+    "fbs": 0,
+    "restecg": 1,
+    "thalach": 150,
+    "exang": 0,
+    "oldpeak": 1.2,
+    "slope": 2,
+    "ca": 0,
+    "thal": 3,
+    "target": 1
 }
 ```
 
-Neste exemplo:
-
-* "prediction": 1 indica que o paciente tem uma probabilidade alta de ter doença cardíaca.
-* "probability": 0.85 indica uma confiança de 85% no resultado.
+Neste exemplo o 'target' representa se o paciente tem (1) ou não (0) indícios de doença cardíaca.
 
 ## Rotas da API
 
-POST /predict: Recebe os dados do paciente e retorna uma predição se ele tem ou não doença cardíaca.
-GET /: Rota inicial que exibe uma mensagem simples de boas-vindas à API.
+GET /: Rota inicial que exibe uma mensagem simples de boas-vindas à API com relação da documentação.
+POST /paciente: Recebe os dados do paciente adicionando ao banco de dados disparando o processo que retorna uma predição se ele tem ou não indícios de doença cardíaca.
+GET /pacientes: Lista a relação de pacientes já avaliados.
 
-### Parâmetros esperados na rota /predict
+### Parâmetros esperados na rota /paciente
 
+* name: Nome do paciente (str)
 * age: Idade do paciente (int)
 * sex: Sexo do paciente (1 = homem, 0 = mulher)
 * cp: Tipo de dor no peito (0-3)
@@ -129,8 +142,8 @@ GET /: Rota inicial que exibe uma mensagem simples de boas-vindas à API.
 O modelo de machine learning foi treinado usando Scikit-learn com o seguinte pipeline:
 
 1. Pré-processamento dos dados: Limpeza e normalização.
-2. Treinamento: Algoritmos como Random Forest, Logistic Regression, entre outros, foram testados para encontrar o melhor desempenho.
-3. Validação: O modelo foi validado utilizando métricas como acurácia, precisão, recall e F1-score.
+2. Treinamento: Algoritmos como Random Forest, Logistic Regression, entre outros, foram testados para encontrar o melhor desempenho. Neste caso, o Random Forest foi selecionado.
+3. Validação: O modelo foi validado utilizando métricas como acurácia.
 
 ### Dataset
 
