@@ -8,6 +8,7 @@ CardioSense é um sistema de inteligência artificial que utiliza o **Cardiovasc
 
 ## Índice
 - [Descrição](#descrição)
+- [Notebook](#notebook)
 - [Instalação](#instalação)
 - [Uso](#uso)
 - [Rotas da API](#rotas-da-api)
@@ -18,6 +19,10 @@ CardioSense é um sistema de inteligência artificial que utiliza o **Cardiovasc
 O **CardioSense** foi criado para fornecer um sistema rápido e eficaz para a previsão de doenças cardíacas, com base em um modelo de machine learning. A aplicação utiliza o conjunto de dados **Cardiovascular Disease** para treinar um modelo de classificação que prevê a probabilidade de um paciente ter doenças cardíacas, dados atributos como idade, sexo, pressão arterial, colesterol, entre outros.
 
 A API é desenvolvida em **Flask** e utiliza **Scikit-learn** para o treinamento e predição do modelo. Este repositório é focado exclusivamente na parte **Backend** da aplicação.
+
+## Notebook
+
+O notebook criado para geração do modelo a partir do dataset pode ser acessado [aqui](https://colab.research.google.com/drive/1Z_jYo5_AQnHg83LHrEKO8DyRcOFUFQoz?usp=sharing).
 
 ## Instalação
 
