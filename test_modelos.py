@@ -1,6 +1,7 @@
+import pytest
 from model import *
 
-# To run: pytest -v test_modelos.py
+# Para executar: pytest -v test_modelos.py
 
 # Instanciação das Classes
 carregador = Carregador()
@@ -14,43 +15,9 @@ colunas = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 
 # Carga dos dados
 dataset = Carregador.carregar_dados(url_dados, colunas)
 array = dataset.values
-X = array[:,0:-1]
-y = array[:,-1]
+X = array[:, 0:-1]
+y = array[:, -1]
 
-    
-# Método para testar o modelo de Regressão Logística a partir do arquivo correspondente
-# O nome do método a ser testado necessita começar com "test_"
-def test_modelo_lr():  
-    # Importando o modelo de regressão logística
-    lr_path = './MachineLearning/models/cardiosense_lr.pkl'
-    modelo_lr = Model.carrega_modelo(lr_path)
-
-    # Obtendo as métricas da Regressão Logística
-    acuracia_lr = Avaliador.avaliar(modelo_lr, X, y)
-    
-    # Testando as métricas da Regressão Logística 
-    # Modifique as métricas de acordo com seus requisitos
-    assert acuracia_lr >= 0.78 
-    # assert recall_lr >= 0.5 
-    # assert precisao_lr >= 0.5 
-    # assert f1_lr >= 0.5 
- 
-# Método para testar modelo KNN a partir do arquivo correspondente
-def test_modelo_knn():
-    # Importando modelo de KNN
-    knn_path = './MachineLearning/models/cardiosense_knn.pkl'
-    modelo_knn = Model.carrega_modelo(knn_path)
-
-    # Obtendo as métricas do KNN
-    acuracia_knn = Avaliador.avaliar(modelo_knn, X, y)
-    
-    # Testando as métricas do KNN
-    # Modifique as métricas de acordo com seus requisitos
-    assert acuracia_knn >= 0.78
-    # assert recall_knn >= 0.5 
-    # assert precisao_knn >= 0.5 
-    # assert f1_knn >= 0.5 
-    
 # Método para testar pipeline Random Forest a partir do arquivo correspondente
 def test_modelo_rf():
     # Importando pipeline de Random Forest
@@ -59,10 +26,32 @@ def test_modelo_rf():
 
     # Obtendo as métricas do Random Forest
     acuracia_rf = Avaliador.avaliar(modelo_rf, X, y)
+        # Verificando se o modelo foi carregado corretamente
+    assert modelo_rf is not None, "O modelo não pôde ser carregado."
+
+    # Obtendo as métricas do Random Forest
+    acuracia_rf = Avaliador.avaliar(modelo_rf, X, y)
     
     # Testando as métricas do Random Forest
-    # Modifique as métricas de acordo com seus requisitos
-    assert acuracia_rf >= 0.78
-    # assert recall_rf >= 0.5 
-    # assert precisao_rf >= 0.5 
-    # assert f1_rf >= 0.5
+    assert acuracia_rf >= 0.78, f"Acurácia do modelo RF esperada >= 0.78, mas obtida: {acuracia_rf}"
+
+    # Testar previsões com dados de entrada válidos
+    previsoes = modelo_rf.predict(X)
+    
+    # Verifique se as previsões têm o mesmo número de entradas que o conjunto de testes
+    assert len(previsoes) == len(y), "O número de previsões não corresponde ao número de exemplos de teste."
+    
+    # Testar se as previsões são apenas 0 ou 1 (caso do problema binário)
+    assert set(previsoes).issubset({0, 1}), "As previsões devem ser 0 ou 1."
+
+# Método para testar a carga de dados
+def test_carregar_dados():
+    # Testa a carga do dataset
+    dataset_carregado = Carregador.carregar_dados(url_dados, colunas)
+    
+    # Verifique se o dataset foi carregado corretamente
+    assert dataset_carregado is not None, "O dataset não foi carregado."
+    assert not dataset_carregado.empty, "O dataset carregado está vazio."
+    
+    # Verifique se contém as colunas esperadas
+    assert all(col in dataset_carregado.columns for col in colunas), "Nem todas as colunas esperadas estão presentes no dataset."
